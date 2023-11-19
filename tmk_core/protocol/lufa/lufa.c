@@ -814,7 +814,8 @@ void protocol_pre_task(void) {
         dprintln("suspending keyboard");
         while (USB_DeviceState == DEVICE_STATE_Suspended) {
             suspend_power_down();
-            if (suspend_wakeup_condition() && USB_Device_RemoteWakeupEnabled) {
+            const bool wakeup = suspend_wakeup_condition();
+            if (USB_Device_RemoteWakeupEnabled && wakeup) {
                 USB_Device_SendRemoteWakeup();
                 clear_keyboard();
 

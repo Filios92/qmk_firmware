@@ -28,6 +28,9 @@
             "nkro": true
         }
     },
+        "dynamic_keymap": {
+            "layer_count": 10
+        },
     "matrix_pins": {
         "cols": ["B1", "B2", "B3", "B6", "F7", "F6"],
         "rows": ["D4", "C6", "D7", "E6", "B4"]
@@ -106,9 +109,9 @@
             {"x": 180, "y": 62, "flags": 2},
             {"matrix": [9, 1], "x": 188, "y": 62, "flags": 4}
         ],
-        "max_brightness": 175,
+        "max_brightness": 100,
         "sleep": true,
-        "split_count": [35, 35]
+        "split_count": [29, 29]
     },
     "split": {
         "bootmagic": {
@@ -134,7 +137,7 @@
                 "layer_state": true,
                 "matrix_state": true,
                 "modifiers": true,
-                "oled": true
+                "oled": false
             }
         },
         "usb_detect": {
@@ -144,8 +147,8 @@
     "url": "https://lectronz.com/stores/tweetys-wild-thinking",
     "usb": {
         "device_version": "1.2.3",
-        "pid": "0x23B0",
-        "vid": "0xFEED"
+        "pid": "0x0002",
+        "vid": "0x464F"
     },
     "ws2812": {
         "pin": "D3"

@@ -1,0 +1,121 @@
+{
+    "debounce": 5,
+    "qmk": {
+        "tap_keycode_delay": 10
+    },
+    "tapping": {
+        "chordal_hold": true,
+        "term": 200,
+        "term_per_key": true,
+        "hold_on_other_key_press": true,
+        "hold_on_other_key_press_per_key": true,
+        "permissive_hold": false,
+        "retro": true,
+        "retro_per_key": true,
+        "toggle": 2
+    },
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "oled": true,
+        "encoder": true,
+        "rgblight": false,
+        "rgb_matrix": true,
+        "split": true,
+        "encoder_map": false,
+        "audio": false,
+        "magic": false,
+        "grave_esc": false,
+        "space_cadet": false,
+        "tap_dance": false,
+        "caps_word": true,
+        "combo": true,
+        "tri_layer": false,
+        "auto_shift": false
+    },
+    "caps_word": {
+        "double_tap_shift_turns_on": false,
+        "both_shifts_turns_on": true,
+        "invert_on_shift": true
+    },
+    "combo": {
+        "term": 40
+    },
+    "mouse_key": {
+        "delay": 0,
+        "interval": 16,
+        "max_speed": 6,
+        "time_to_max": 64,
+        "wheel_delay": 0
+    },
+    "rgblight": {
+        "animations": {
+            "breathing": true,
+            "rainbow_mood": true,
+            "snake": true,
+            "static_gradient": true,
+            "rainbow_swirl": true
+        }
+    },
+    "rgb_matrix": {
+        "driver": "ws2812",
+        "max_brightness": 120,
+        "animations": {
+            "alphas_mods": true,
+            "gradient_up_down": true,
+            "gradient_left_right": true,
+            "breathing": true,
+            "band_sat": true,
+            "band_val": true,
+            "band_pinwheel_sat": true,
+            "band_pinwheel_val": true,
+            "band_spiral_sat": true,
+            "band_spiral_val": true,
+            "cycle_all": true,
+            "cycle_left_right": true,
+            "cycle_up_down": true,
+            "cycle_out_in": true,
+            "cycle_out_in_dual": true,
+            "rainbow_moving_chevron": true,
+            "cycle_pinwheel": true,
+            "cycle_spiral": true,
+            "dual_beacon": true,
+            "rainbow_beacon": true,
+            "rainbow_pinwheels": true,
+            "raindrops": true,
+            "jellybean_raindrops": true,
+            "hue_breathing": true,
+            "hue_pendulum": true,
+            "hue_wave": true,
+            "pixel_fractal": true,
+            "pixel_flow": true,
+            "pixel_rain": true,
+            "typing_heatmap": true,
+            "digital_rain": true,
+            "solid_reactive_simple": true,
+            "solid_reactive": true,
+            "solid_reactive_wide": true,
+            "solid_reactive_multiwide": true,
+            "solid_reactive_cross": true,
+            "solid_reactive_multicross": true,
+            "solid_reactive_nexus": true,
+            "solid_reactive_multinexus": true,
+            "splash": true,
+            "multisplash": true,
+            "solid_splash": true,
+            "solid_multisplash": true,
+            "riverflow": true
+        },
+        "sleep": true,
+        "split": true,
+        "split_count": [29, 29],
+        "timeout": 10000,
+        "dynamic_keymap": {
+            "layer_count": 10
+        }
+    }
+}
