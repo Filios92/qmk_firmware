@@ -25,6 +25,16 @@
         "files.trimTrailingWhitespace": false
     },
     "python.formatting.provider": "yapf",
+    "terminal.integrated.profiles.windows": {
+        "QMK_MSYS": {
+            "path": "G:/Program Files/QMK_MSYS/usr/bin/bash.exe",
+            "env": {
+                "MSYSTEM": "MINGW64",
+                "CHERE_INVOKING": "1"
+            },
+            "args": ["--login"]
+        }
+    },
     "[json]": {
         "editor.formatOnSave": false
     },

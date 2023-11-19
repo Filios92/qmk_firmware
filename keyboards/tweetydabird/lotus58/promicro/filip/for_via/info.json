@@ -1,0 +1,23 @@
+{
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": false,
+        "nkro": true,
+        "oled": true,
+        "encoder": true,
+        "rgblight": true,
+        "split": true,
+        "encoder_map": true,
+        "audio": false,
+        "magic": false,
+        "grave_esc": false,
+        "space_cadet": false,
+        "tap_dance": false,
+        "caps_word": false,
+        "combo": false,
+        "auto_shift": false
+    }
+}

@@ -9,7 +9,7 @@
     "diode_direction": "COL2ROW",
     "encoder": {
         "rotary": [
-            {"pin_a": "F5", "pin_b": "F4", "resolution": 2}
+            {"pin_a": "F4", "pin_b": "F5", "resolution": 2}
         ]
     },
     "features": {
@@ -32,11 +32,11 @@
     "pin_compatible": "promicro",
     "processor": "atmega32u4",
     "rgblight": {
-        "led_count": 70,
+        "led_count": 58,
         "split": true,
-        "split_count": [35, 35],
+        "split_count": [29, 29],
         "sleep": true,
-        "max_brightness": 175
+        "max_brightness": 100
     },
     "ws2812": {
         "pin": "D3"
@@ -70,8 +70,8 @@
     },
     "url": "https://lectronz.com/stores/tweetys-wild-thinking",
     "usb": {
-        "vid": "0xFEED",
-        "pid": "0x23B0",
+        "vid": "0x464F",
+        "pid": "0x0002",
         "device_version": "1.2.3",
         "force_nkro": true
     },

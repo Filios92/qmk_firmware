@@ -1,0 +1,33 @@
+{
+    "features": {
+        "bootmagic": true,
+        "command": false,
+        "console": false,
+        "extrakey": true,
+        "mousekey": true,
+        "nkro": true,
+        "oled": true,
+        "encoder": true,
+        "rgblight": true,
+        "split": true,
+        "encoder_map": false,
+        "audio": false,
+        "magic": false,
+        "grave_esc": false,
+        "space_cadet": false,
+        "tap_dance": false,
+        "caps_word": true,
+        "combo": true,
+        "auto_shift": false
+    },
+    "caps_word": {
+        "double_tap_shift_turns_on": true
+    },
+    "mouse_key": {
+        "delay": 0,
+        "interval": 16,
+        "max_speed": 6,
+        "time_to_max": 64,
+        "wheel_delay": 0
+    }
+}

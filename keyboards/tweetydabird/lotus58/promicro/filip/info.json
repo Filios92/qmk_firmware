@@ -1,0 +1,13 @@
+{
+    "debounce": 5,
+    "qmk": {
+        "tap_keycode_delay": 10
+    },
+    "tapping": {
+        "term": 200,
+        "term_per_key": true,
+        "hold_on_other_key_press": true,
+        "hold_on_other_key_press_per_key": true,
+        "toggle": 2
+    }
+}
