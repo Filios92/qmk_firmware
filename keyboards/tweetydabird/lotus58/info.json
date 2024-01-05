@@ -61,7 +61,7 @@
                 "layer_state": true,
                 "matrix_state": true,
                 "modifiers": true,
-                "oled": true
+                "oled": false
             }
         },
         "usb_detect": {
