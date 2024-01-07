@@ -2,6 +2,7 @@ enum layers {
     _QWERTY,
     _FN_NAV,
     _MYRALT, // My Right ALT
+    _NUM,
     _SYS,
     _MAX_LAYERS
 };
@@ -17,5 +18,6 @@ static const char PROGMEM layers_str[][6] = {
     [_QWERTY] = "     ",
     [_FN_NAV] = "#Nav ",
     [_MYRALT] = "#Alt ",
+    [_NUM]    = "#Num ",
     [_SYS]    = "#Sys ",
 };
