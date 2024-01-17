@@ -65,7 +65,7 @@ enum custom_keycodes {
 #define KCH_L   LALT_T(KC_L)
 #define KCH_SC  LGUI_T(KC_SCLN)
 
-#define KCH_Z          LSFT_T(KC_Z)
+#define KCH_Z          KC_Z
 
 // 
 // Combos
