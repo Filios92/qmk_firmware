@@ -489,9 +489,7 @@ static void rgblight_handlers_slave(matrix_row_t master_matrix[], matrix_row_t s
     split_shmem->rgblight_sync.status.change_flags = 0;
     split_shared_memory_unlock();
 
-    if (rgblight_sync.status.change_flags != 0) {
-        rgblight_update_sync(&rgblight_sync, false);
-    }
+    rgblight_update_sync(&rgblight_sync, false);
 }
 
 #    define TRANSACTIONS_RGBLIGHT_MASTER() TRANSACTION_HANDLER_MASTER(rgblight)

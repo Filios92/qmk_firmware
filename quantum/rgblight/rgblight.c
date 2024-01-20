@@ -969,6 +969,13 @@ void rgblight_get_syncinfo(rgblight_syncinfo_t *syncinfo) {
 
 /* for split keyboard slave side */
 void rgblight_update_sync(rgblight_syncinfo_t *syncinfo, bool write_to_eeprom) {
+    // Force RGB disable
+    if (syncinfo->config.enable != rgblight_config.enable)
+        syncinfo->status.change_flags |= RGBLIGHT_STATUS_CHANGE_MODE;
+    
+    if (syncinfo->status.change_flags == 0)
+        return;
+    
 #    ifdef RGBLIGHT_LAYERS
     if (syncinfo->status.change_flags & RGBLIGHT_STATUS_CHANGE_LAYERS) {
         rgblight_status.enabled_layer_mask = syncinfo->status.enabled_layer_mask;
