@@ -4,11 +4,19 @@
 
 #include "layers.h"
 
+#if 0
+// #define FO_RGB_IDLE_TIMEOUT_MS 20000
+#else
+#define FO_RGB_IDLE_TIMEOUT_MS g_fo_rgb_idle_timeout_ms
+#endif
+
 static uint16_t fo_idle_timer    = 0;
 static bool     lock_layer_state = false;
+static uint16_t g_fo_rgb_idle_timeout_ms = 20000;
+
 
 void fo_process_idle(void) {
-    if (fo_idle_timer && timer_expired(timer_read(), fo_idle_timer)) {
+    if (g_fo_rgb_idle_timeout_ms && fo_idle_timer && timer_expired(timer_read(), fo_idle_timer)) {
         rgblight_suspend();
         fo_idle_timer = 0;
     }
@@ -19,7 +27,7 @@ void fo_process_idle_wakeup(keyrecord_t *record) {
         if (fo_idle_timer == 0) {
             rgblight_wakeup();
         }
-        fo_idle_timer = (record->event.time + 20000) | 1;
+        fo_idle_timer = (record->event.time + FO_RGB_IDLE_TIMEOUT_MS) | 1;
     }
 }
 
@@ -41,6 +49,10 @@ enum custom_keycodes {
     KC_FO_COPY_CAT,
     KC_FO_COPY_CUT,
     KC_FO_TILD,
+    RGB_TINC,
+    RGB_TDEC,
+    RGB_TTOG,
+    RGB_TOG_NOEEP,
     KC_ENCM, // Change encoder mode
     KC_LCKL // Lock layer (Nav)
 };
@@ -233,10 +245,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // ),
 
 [_SYS] = LAYOUT(
- KC_RSET, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, _______,     _______, QK_BOOT, XXXXXXX, XXXXXXX, RGB_MOD, RGB_SAI, RGB_TOG,
- QK_BOOT, XXXXXXX, KC_QWERTY, XXXXXXX, XXXXXXX, AS_TOGG,                       KC_SLEP, XXXXXXX, XXXXXXX, RGB_RMOD, RGB_SAD, RGB_M_P,
- XXXXXXX, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, KC_CAPS,                       XXXXXXX, XXXXXXX, XXXXXXX, RGB_HUI, RGB_VAI, RGB_M_B,
- XXXXXXX, KC_PWR,  XXXXXXX,   XXXXXXX, XXXXXXX, CM_TOGG, _______,   TO(_GAME), XXXXXXX, XXXXXXX, XXXXXXX, RGB_HUD, RGB_VAD, RGB_M_R,
+ KC_RSET, XXXXXXX, XXXXXXX,   XXXXXXX, XXXXXXX, XXXXXXX, _______,     _______, QK_BOOT, XXXXXXX, RGB_TINC, RGB_MOD, RGB_SAI, RGB_TOG,
+ QK_BOOT, XXXXXXX, KC_QWERTY, XXXXXXX, XXXXXXX, AS_TOGG,                       KC_SLEP, XXXXXXX, RGB_TDEC, RGB_RMOD, RGB_SAD, RGB_M_P,
+ XXXXXXX, XXXXXXX, XXXXXXX,   DB_TOGG, XXXXXXX, KC_CAPS,                       XXXXXXX, XXXXXXX, RGB_TTOG, RGB_HUI, RGB_VAI, RGB_M_B,
+ XXXXXXX, KC_PWR,  XXXXXXX,   XXXXXXX, XXXXXXX, CM_TOGG, _______,   TO(_GAME), XXXXXXX, XXXXXXX, RGB_TOG_NOEEP, RGB_HUD, RGB_VAD, RGB_M_R,
                               _______, _______, _______, _______,     _______, _______, _______, _______ 
 ),
 
@@ -473,6 +485,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 encoder_mode = (encoder_mode >= ENCODER_MODES_LEN - 1) ? 0 : encoder_mode + 1;
             }
+            break;
+        case RGB_TINC:
+            if (g_fo_rgb_idle_timeout_ms <= 20000)
+                g_fo_rgb_idle_timeout_ms += 2000;
+            break;
+        case RGB_TDEC:
+            if (g_fo_rgb_idle_timeout_ms >= 4000)
+                g_fo_rgb_idle_timeout_ms -= 2000;
+            break;
+        case RGB_TTOG:
+            if (g_fo_rgb_idle_timeout_ms)
+                g_fo_rgb_idle_timeout_ms = 0;
+            else
+                g_fo_rgb_idle_timeout_ms = 20000;
+            break;
+        case RGB_TOG_NOEEP:
+            extern rgblight_config_t rgblight_config;
+            fo_idle_timer = 0;
+            rgblight_config.enable ? rgblight_suspend() : rgblight_wakeup();
             break;
     }
 
