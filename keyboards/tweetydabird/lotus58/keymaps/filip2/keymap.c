@@ -4,6 +4,8 @@
 
 #include "layers.h"
 
+extern rgblight_config_t rgblight_config;
+
 #if 0
 // #define FO_RGB_IDLE_TIMEOUT_MS 20000
 #else
@@ -501,7 +503,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 g_fo_rgb_idle_timeout_ms = 20000;
             break;
         case RGB_TOG_NOEEP:
-            extern rgblight_config_t rgblight_config;
             fo_idle_timer = 0;
             rgblight_config.enable ? rgblight_suspend() : rgblight_wakeup();
             break;
