@@ -489,22 +489,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
         case RGB_TINC:
-            if (g_fo_rgb_idle_timeout_ms <= 20000)
+            if (record->event.pressed && g_fo_rgb_idle_timeout_ms <= 20000)
                 g_fo_rgb_idle_timeout_ms += 2000;
             break;
         case RGB_TDEC:
-            if (g_fo_rgb_idle_timeout_ms >= 4000)
+            if (record->event.pressed && g_fo_rgb_idle_timeout_ms >= 4000)
                 g_fo_rgb_idle_timeout_ms -= 2000;
             break;
         case RGB_TTOG:
-            if (g_fo_rgb_idle_timeout_ms)
-                g_fo_rgb_idle_timeout_ms = 0;
-            else
-                g_fo_rgb_idle_timeout_ms = 20000;
+            if (record->event.pressed)
+            {
+                if (g_fo_rgb_idle_timeout_ms)
+                    g_fo_rgb_idle_timeout_ms = 0;
+                else
+                    g_fo_rgb_idle_timeout_ms = 20000;
+            }
             break;
         case RGB_TOG_NOEEP:
-            fo_idle_timer = 0;
-            rgblight_config.enable ? rgblight_suspend() : rgblight_wakeup();
+            if (record->event.pressed)
+            {
+                fo_idle_timer = 0;
+                rgblight_config.enable ? rgblight_suspend() : rgblight_wakeup();
+            }
             break;
     }
 
