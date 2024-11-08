@@ -98,8 +98,23 @@ enum combos {
   FO_CMB_SHIFT_TAB,
   FO_CMB_BKSPC,
   FO_CMB_DEL,
+  FO_CMB_MOUSE,
   COMBO_LENGTH
 };
+
+uint8_t combo_ref_from_layer(uint8_t layer){
+    switch (get_highest_layer(layer_state)){
+        case _MYRALT: return _MYRALT;
+        default: return _QWERTY;
+    }
+    return layer;  // important if default is not in case.
+}
+
+bool get_combo_must_hold(uint16_t index, combo_t *combo) {
+    if (index == FO_CMB_MOUSE)
+        return true;
+    return false;
+}
 
 uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
 
@@ -116,6 +131,7 @@ const uint16_t PROGMEM combo_tab[]         = {KC_G, KC_T, COMBO_END};
 const uint16_t PROGMEM combo_shift_tab[]   = {KCH_F, KC_R, COMBO_END};
 const uint16_t PROGMEM combo_bkspc[]       = {KC_H, KC_Y, COMBO_END};
 const uint16_t PROGMEM combo_del[]         = {KCH_SC, KC_P, COMBO_END};
+const uint16_t PROGMEM combo_mouse[]       = {KC_Q, KC_E, COMBO_END};
 
 combo_t key_combos[COMBO_LENGTH] = {
     [FO_CMB_UNDO]      = COMBO(combo_undo, LCTL(KC_Z)),
@@ -131,6 +147,7 @@ combo_t key_combos[COMBO_LENGTH] = {
     [FO_CMB_SHIFT_TAB] = COMBO(combo_shift_tab, LSFT(KC_TAB)),
     [FO_CMB_BKSPC]     = COMBO(combo_bkspc, KC_BACKSPACE),
     [FO_CMB_DEL]       = COMBO(combo_del, KC_DEL),
+    [FO_CMB_MOUSE]     = COMBO(combo_mouse, TT(_MOUSE)),
 };
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
@@ -256,7 +273,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_MOUSE] = LAYOUT(
  KC_RSET, _______, _______, _______, _______, _______, _______,      _______, _______, _______, _______, _______, _______, _______,
- _______, _______, _______, _______, _______, _______,                        KC_WH_U, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,
+ _______, _______, _______, _______, KC_BTN1, _______,                        KC_WH_U, KC_BTN1, KC_MS_U, KC_BTN2, _______, _______,
  _______, _______, _______, _______, _______, _______,                        KC_WH_D, KC_MS_L, KC_MS_D, KC_MS_R, KC_ACL1, KC_ACL2,
  _______, _______, _______, _______, _______, _______, _______,      _______, KC_BTN4, KC_BTN5, KC_BTN3, _______, KC_ACL0, _______,
                             _______, _______, _______, _______,      _______, KC_RSET, _______, _______
@@ -566,8 +583,10 @@ bool achordion_chord(uint16_t tap_hold_keycode, keyrecord_t *tap_hold_record, ui
 }
 
 uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
-    if (tap_hold_keycode == FO_RALT) {
-        return 0;
+    switch (tap_hold_keycode) {
+        case FO_RALT:
+        case KC_COPY_CUT:
+            return 0;
     }
     return 1000;
 }
