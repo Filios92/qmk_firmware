@@ -29,5 +29,14 @@
         "max_speed": 6,
         "time_to_max": 64,
         "wheel_delay": 0
+    },
+    "rgblight": {
+        "animations": {
+            "breathing": true,
+            "rainbow_mood": true,
+            "snake": true,
+            "static_gradient": true,
+            "rainbow_swirl": true
+        }
     }
 }
