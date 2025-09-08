@@ -302,6 +302,10 @@ static void rgb_task_sync(void) {
     if (sync_timer_elapsed32(g_rgb_timer) >= RGB_MATRIX_LED_FLUSH_LIMIT) rgb_task_state = STARTING;
 }
 
+uint8_t rgb_breathout_timer = 0;
+#define RGB_MATRIX_TIMEOUT_BREATHOUT_MS (1000)
+uint8_t rgb_matrix_timeout_enabled = 0; //RGB_MATRIX_TIMEOUT > 0;
+
 static void rgb_task_start(void) {
     // reset iter
     rgb_effect_params.iter = 0;
@@ -312,11 +316,24 @@ static void rgb_task_start(void) {
     g_last_hit_tracker = last_hit_buffer;
 #endif // RGB_MATRIX_KEYREACTIVE_ENABLED
 
+#if RGB_MATRIX_TIMEOUT > 0
+    if (rgb_matrix_timeout_enabled && !suspend_state && last_input_activity_elapsed() > (uint32_t)RGB_MATRIX_TIMEOUT) {
+        uint32_t rgb_breathout_timer_calc = last_input_activity_elapsed() - (uint32_t)RGB_MATRIX_TIMEOUT;
+        rgb_breathout_timer_calc = rgb_breathout_timer_calc * (256 * 128 / RGB_MATRIX_TIMEOUT_BREATHOUT_MS) / 128;
+        if (rgb_breathout_timer_calc > 255)
+            rgb_breathout_timer = 0;
+        else
+            rgb_breathout_timer = rgb_breathout_timer_calc;
+    }
+    else {
+        rgb_breathout_timer = 0;
+    }
+#endif
     // Ideally we would also stop sending zeros to the LED driver PWM buffers
     // while suspended and just do a software shutdown. This is a cheap hack for now.
     bool suspend_backlight = suspend_state ||
 #if RGB_MATRIX_TIMEOUT > 0
-                             (last_input_activity_elapsed() > (uint32_t)RGB_MATRIX_TIMEOUT) ||
+                             (rgb_matrix_timeout_enabled && last_input_activity_elapsed() > ((uint32_t)RGB_MATRIX_TIMEOUT + RGB_MATRIX_TIMEOUT_BREATHOUT_MS)) ||
 #endif // RGB_MATRIX_TIMEOUT > 0
                              false;
 
@@ -333,6 +350,13 @@ static void rgb_task_render(uint8_t effect) {
     if (rgb_effect_params.flags != rgb_matrix_config.flags) {
         rgb_effect_params.flags = rgb_matrix_config.flags;
         rgb_matrix_set_color_all(0, 0, 0);
+    }
+    
+    const uint8_t hsv_v_bak = rgb_matrix_config.hsv.v;
+    if (rgb_breathout_timer) {
+        rgb_matrix_config.hsv.v = scale8(cos8(rgb_breathout_timer / 2), hsv_v_bak);
+        // rgb_matrix_config.hsv.v = dim8_raw(scale8(cos8(rgb_breathout_timer / 2), hsv_v_bak));
+        // rgb_matrix_config.hsv.v = dim8_raw(scale8(255 - rgb_breathout_timer, hsv_v_bak));
     }
 
     // each effect can opt to do calculations
@@ -384,6 +408,7 @@ static void rgb_task_render(uint8_t effect) {
             return;
     }
 
+    rgb_matrix_config.hsv.v = hsv_v_bak;
     rgb_effect_params.iter++;
 
     // next task
