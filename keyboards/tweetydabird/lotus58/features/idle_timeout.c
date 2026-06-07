@@ -32,7 +32,9 @@ __attribute__((weak)) void idle_timeout_wakeup_cb(void) {
 }
 
 void idle_timeout_toggle(void) {
+#if defined (RGB_MATRIX_TIMEOUT)
 extern uint8_t rgb_matrix_timeout_enabled;
+#endif
     if (idle_timeout_ms) {
         idle_timeout_ms = 0;
 #if defined (RGB_MATRIX_TIMEOUT)
