@@ -109,14 +109,7 @@ _GENERATE(FO_CMB_BKSPC,     KC_BACKSPACE,   KC_H, KC_Y, COMBO_END) \
 _GENERATE(FO_CMB_DEL,       KC_DEL,         KCH_J, KC_U, COMBO_END) \
 _GENERATE(FO_CMB_MOUSE,     TT(_MOUSE),     KC_W, KC_R, COMBO_END) \
 
-// === //
-#define _GENERATE_ENUM(index, _, ...) index,
-#define _GENERATE_COMBO(index, _, ...) const uint16_t PROGMEM combo_ ## index [] = {__VA_ARGS__};
-#define _GENERATE_KEY_COMBOS(index, keycode, ...) [index] = COMBO(combo_ ## index, keycode),
-enum combos { FOR_EACH_COMBO(_GENERATE_ENUM) COMBO_LENGTH };
-FOR_EACH_COMBO(_GENERATE_COMBO);
-combo_t key_combos[COMBO_LENGTH] = { FOR_EACH_COMBO(_GENERATE_KEY_COMBOS) };
-// === //
+#include "features/combo_maker.h"
 
 uint8_t combo_ref_from_layer(uint8_t layer){
     switch (get_highest_layer(layer_state)){
@@ -131,9 +124,6 @@ bool get_combo_must_hold(uint16_t index, combo_t *combo) {
         return true;
     return false;
 }
-
-uint16_t COMBO_LEN = COMBO_LENGTH; // remove the COMBO_COUNT define and use this instead!
-
 
 void process_combo_event(uint16_t combo_index, bool pressed) {
     switch (combo_index) {
