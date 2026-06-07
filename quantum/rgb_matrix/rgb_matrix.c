@@ -304,7 +304,9 @@ static void rgb_task_sync(void) {
 
 uint8_t rgb_breathout_timer = 0;
 #define RGB_MATRIX_TIMEOUT_BREATHOUT_MS (1000)
+#if RGB_MATRIX_TIMEOUT > 0
 uint8_t rgb_matrix_timeout_enabled = 0; //RGB_MATRIX_TIMEOUT > 0;
+#endif
 
 static void rgb_task_start(void) {
     // reset iter
